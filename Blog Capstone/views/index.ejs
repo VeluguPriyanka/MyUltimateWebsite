@@ -1,0 +1,57 @@
+<%- include('partials/header.ejs') %>
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('https://images.unsplash.com/photo-1470092306007-055b6797ca72?ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-10 col-xl-10">
+                        <div class="site-heading">
+                            <% if (locals.name) { %>
+                                <h1><%= name %>'s Blog</h1>
+                           
+                            
+                            <span class="subheading">A Collection of <%= name %>'s random musings</span>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Main Content-->
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <!-- Post preview-->
+                    
+                    <% if (locals.body) { %>
+                     
+                    <% for( let i = 0; i < body.length; i++ ) { %>
+                    
+                   
+                    <div class="post-preview">
+                        <hr class="my-4" />
+                        
+                            <h2 class="post-title"><%= body[i].title %></h2>
+                           
+
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            <a href="/posts/<%= i %>"><%= body[i].name %></a>
+                            on <%= new Date().toJSON().slice(0, 10) %>
+                            <a class="edit" href="/edit/<%= i %>">Edit </a>
+                            <a href='/delete/<%= i %>'> delete</a>
+                        </p>
+                        
+                    </div>
+                    <% } %>
+                    <!-- Divider-->
+
+                    <!-- Divider-->
+                    <% } %>
+                    <!-- Pager-->
+                    <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="/post">Create Post →</a></div>
+                </div>
+            </div>
+        </div>
+      
+ <%- include('partials/footer.ejs') %>

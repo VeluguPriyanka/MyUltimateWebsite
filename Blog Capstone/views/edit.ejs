@@ -1,0 +1,23 @@
+<%- include('partials/header.ejs') %>
+
+
+<form class="mx-3" action="/submit/<%= i %>" method="POST" >
+  <h2 style="text-align: center;">Edit Post</h2>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Name</label>
+    <input name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="<%= body.name %>">
+    
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Title</label>
+    <input name="title" class="form-control" id="exampleInputPassword1"  placeholder="<%= body.title %>">
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Text</label>
+    <input name="text" class="form-control" id="exampleInputPassword1"  placeholder="<%= body.text %>">
+  </div>
+  
+  <!-- <a class="btn btn-primary"href="/">Submit</a> -->
+  <button>Submit</button>
+  
+</form>
