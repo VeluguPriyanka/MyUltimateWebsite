@@ -50,7 +50,7 @@ app.post("/submit/:i", (req,res) => {
 app.get("/delete/:i", (req,res) => {
   const index = parseInt(req.params.i);
   list.splice(index,1);
-  console.log(index);
+  // console.log(index);
   res.redirect("/");
 })
  
