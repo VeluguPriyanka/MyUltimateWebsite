@@ -1,10 +1,34 @@
 import express from "express";
 import bodyParser from "body-parser";
+import pg from "pg";
 
 const app = express();
 const port = 3000;
 const Name = "Priyanka"
-const list = [];
+
+
+const db = new pg.Client({
+  user:"postgres",
+  host:"localhost",
+  database:"blog",
+  password:"Kookie",
+  port:5432
+})
+
+db.connect();
+let list = 0;
+db.query("SELECT * FROM blog", (err,res) => {
+  if (err){
+     console.error("Error",err.stack)
+  }
+  else{
+    console.log(res.rows)
+    list = res.rows;
+  }
+  db.end();
+  
+})
+
 /* Write your code here:
 Step 1: Render the home page "/" index.ejs
 Step 2: Make sure that static files are linked to and the CSS shows up.
@@ -21,11 +45,20 @@ app.get("/",(req,res) =>{
 app.get("/post",(req,res) =>{
     res.render("create.ejs")
   })
-app.post("/",(req,res) =>{
-    const dic = {title:req.body["title"],
-                 name:req.body["name"],
-                text:req.body["text"]}
-    list.push(dic)            
+app.post("/", async(req,res) =>{
+    const date = new Date();
+    
+    await db.query("INSERT INTO blog (name,title,text,date) VALUES($1,$2,$3,$4)",[req.body.name,
+      req.body.title,req.body.text,date])    
+    
+    
+
+    // const dic = {title:req.body["title"],
+    //              name:req.body["name"],
+    //             text:req.body["text"],
+    //             date:new Date().toJSON().slice(0, 10)
+    //           }
+    // list.push(dic)            
     res.redirect("/")
   })  
 
@@ -39,11 +72,18 @@ app.get("/edit/:i",(req,res) =>{
     res.render("edit.ejs",{body:list[id],i:id})
     
    })   
-app.post("/submit/:i", (req,res) => {
-  const id = parseInt(req.params.i);
-  if(req.body.title)  {list[id].title = req.body.title;}
-  if(req.body.text) { list[id].text = req.body.text;}
-  if(req.body.name)  {list[id].name = req.body.name;}
+app.post("/submit/:i", async(req,res) => {
+  const i = parseInt(req.params.i);
+  const id =list[i].id;
+  console.log(id);
+  
+  if(req.body.name) {await db.query("UPDATE blog SET name = $1 WHERE blog.id == $2", [req.body.name, id])}
+  if(req.body.title) {await db.query("UPDATE blog SET title = $1 WHERE blog.id == $2", [req.body.title, id])}
+  if(req.body.text) {await db.query("UPDATE blog SET text = $1 WHERE blog.id == $2", [req.body.text, id])}
+  db.end();
+  // if(req.body.title)  {list[i].title = req.body.title;}
+  // if(req.body.text) { list[i].text = req.body.text;}
+  // if(req.body.name)  {list[i].name = req.body.name;}
   res.redirect("/");
   
 }) 
