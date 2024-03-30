@@ -37,7 +37,8 @@
                         <p class="post-meta">
                             Posted by
                             <a href="/posts/<%= i %>"><%= body[i].name %></a>
-                            on <%= new Date().toJSON().slice(0, 10) %>
+                            on <%= body[i].date.toJSON().slice(0, 10) %>
+                            
                             <a class="edit" href="/edit/<%= i %>">Edit </a>
                             <a href='/delete/<%= i %>'> delete</a>
                         </p>
